@@ -55,7 +55,7 @@ function shortSave(longUrl, callback) {
   var params = {
     TableName: process.env.URL_TABLE,
     Item: {
-      shortUrl: shortUrl,
+      id: shortUrl,
       longUrl: longUrl
     }
   };

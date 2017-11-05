@@ -40,7 +40,7 @@ Resources:
   urlTable:
     Type: AWS::Serverless::SimpleTable
     PrimaryKey:
-      Name: shortUrl
+      Name: id
       Type: String
     ProvisionedThroughput:
       ReadCapacityUnits: 5
