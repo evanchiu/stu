@@ -59,9 +59,8 @@ function redirect(event, context, callback) {
     } else {
       return callback(null, {
         statusCode: 302,
-        body: JSON.stringify({location: longUrl}),
+        body: '',
         headers: {
-          'Content-Type': 'application/json',
           'Location': longUrl
         }
       });
