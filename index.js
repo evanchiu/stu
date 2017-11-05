@@ -1,7 +1,7 @@
 'use strict';
 
 const aws = require('aws-sdk');
-const dynamodb = new aws.DynamoDB();
+const doc = new aws.DynamoDB.DocumentClient();
 
 const crypto = require('crypto');
 const fs = require('fs');
@@ -55,12 +55,12 @@ function shortSave(longUrl, callback) {
   var params = {
     TableName: process.env.URL_TABLE,
     Item: {
-      shortUrl: { S: shortUrl },
-      longUrl: { S: longUrl }
+      shortUrl: shortUrl,
+      longUrl: longUrl
     }
   };
 
-  dynamodb.putItem(params, function(err, data) {
+  doc.put(params, function(err, data) {
     if (err) {
       console.error('DyanmoDB error on save: ', err);
       return callback(err);
