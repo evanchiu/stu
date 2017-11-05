@@ -6,20 +6,30 @@ Transform:
 Parameters:
   ProjectId:
     Type: String
-    Description: AWS CodeStar projectID used to associate new resources to team members
+    Description: Stu: Serverless Teeny Url
 
 Resources:
-  GetHelloWorld:
+  siteFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.get
-      Runtime: nodejs4.3
+      Handler: index.handler
+      Runtime: nodejs6.10
       Role:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
       Events:
-        GetEvent:
+        root:
           Type: Api
           Properties:
             Path: /
             Method: get
+        getProxy:
+          Type: Api
+          Properties:
+            Path: '/{proxy+}'
+            Method: get
+        postProxy:
+          Type: Api
+          Properties:
+            Path: '/{proxy+}'
+            Method: post
