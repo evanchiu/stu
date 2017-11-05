@@ -51,8 +51,7 @@ function create(event, context, callback) {
 
 // Try to load the long url and redirect, otherwise 404
 function redirect(event, context, callback) {
-  // shortKey is the first url segment e.g. 'abc' in '/abc' or '/abc/def'
-  var shortKey = event.path.substring(1, event.path.indexOf('/', 1));
+  var shortKey = getShortKey(event.path);
   loadLong(shortKey, function(err, longUrl) {
     if (err) {
       return done(404, '{"status": "Not Found"}', 'application/json', callback);
@@ -67,6 +66,16 @@ function redirect(event, context, callback) {
       });
     }
   });
+}
+
+// shortKey is the first url segment e.g. 'abc' in '/abc' or '/abc/def'
+function getShortKey(path) {
+  var shortKey = path.substring(1);
+  var slashIndex = shortKey.indexOf('/');
+  if (slashIndex > 0) {
+    shortKey = shortKey.substring(0, slashIndex);
+  }
+  return shortKey;
 }
 
 // Generate the short path for the given url and store it in the database
@@ -113,7 +122,7 @@ function loadLong(shortKey, callback) {
       return callback(err);
     } else {
       console.log('Got data: ', data);
-      return callback(null, data.longUrl);
+      return callback(null, data.Item.longUrl);
     }
   });
 }
