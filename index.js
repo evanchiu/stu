@@ -8,9 +8,9 @@ const fs = require('fs');
 
 // Map of routes to functions
 var routes = {
-  '/': index
+  '/': index,
   '/create': create
-}
+};
 
 // Handler provides routing
 exports.handler = function(event, context, callback) {
@@ -40,13 +40,13 @@ function create(event, context, callback) {
     return done(400, '{"error": "Invalid JSON body"}', 'application/json', callback);
   }
 
-  shortSave(longUrl, function(err, data) {
+  shortSave(json.longUrl, function(err, data) {
     if (err) {
       return done(500, '{"error": "Internal Server Error"}', 'application/json', callback);
     } else {
       return done(200, data.toString(), 'application/json', callback);
     }
-  }
+  });
 }
 
 // Generate the short path for the given url and store it in the database
@@ -61,7 +61,7 @@ function shortSave(longUrl, callback) {
         createDate: new Date()
       }
     }
-  }
+  };
 
   dynamodb.putItem(params, function(err, data) {
     if (err) {
@@ -70,7 +70,7 @@ function shortSave(longUrl, callback) {
     } else {
       return callback(null, JSON.stringify({shortUrl: shortUrl}));
     }
-  }
+  });
 }
 
 // For this demo, we're just going to use the first 7 base-64 encoded characters of the sha256 hash
