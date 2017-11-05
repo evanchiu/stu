@@ -6,7 +6,7 @@ Transform:
 Parameters:
   ProjectId:
     Type: String
-    Description: Stu: Serverless Teeny Url
+    Description: Stu - Serverless Teeny Url
 
 Resources:
   siteFunction:
