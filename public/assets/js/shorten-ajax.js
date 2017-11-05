@@ -8,7 +8,8 @@ function shorten() {
       return response.json();
     }
   }).then(function(json) {
-    document.getElementById('short-url').innerHTML = '<a href = "' + json.shortUrl + '">' + json.shortUrl + '</a>';
+    document.getElementById('short-url').innerHTML = '<a href = "' + json.shortKey + '">'
+      + window.location + json.shortKey + '</a>';
   }).catch(function(error) {
     document.getElementById('short-url').innerHTML = 'Error shortening: ' + error;
   });

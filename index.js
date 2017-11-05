@@ -51,11 +51,11 @@ function create(event, context, callback) {
 
 // Generate the short path for the given url and store it in the database
 function shortSave(longUrl, callback) {
-  var shortUrl = shorten(longUrl);
+  var shortKey = shorten(longUrl);
   var params = {
     TableName: process.env.URL_TABLE,
     Item: {
-      id: shortUrl,
+      id: shortKey,
       longUrl: longUrl
     }
   };
@@ -65,7 +65,7 @@ function shortSave(longUrl, callback) {
       console.error('DyanmoDB error on save: ', err);
       return callback(err);
     } else {
-      return callback(null, JSON.stringify({shortUrl: shortUrl}));
+      return callback(null, JSON.stringify({shortKey: shortKey}));
     }
   });
 }
