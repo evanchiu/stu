@@ -57,6 +57,7 @@ function redirect(event, context, callback) {
     if (err) {
       return done(404, '{"status": "Not Found"}', 'application/json', callback);
     } else {
+      console.log('Redirecting short key ' + shortKey + ' to ' + longUrl);
       return callback(null, {
         statusCode: 302,
         body: '',
@@ -111,6 +112,7 @@ function loadLong(shortKey, callback) {
       console.log('DynamoDB error on load: ', err);
       return callback(err);
     } else {
+      console.log('Got data: ', data);
       return callback(null, data.longUrl);
     }
   });
