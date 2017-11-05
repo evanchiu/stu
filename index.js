@@ -53,13 +53,10 @@ function create(event, context, callback) {
 function shortSave(longUrl, callback) {
   var shortUrl = shorten(longUrl);
   var params = {
-    TableName: process.env.REDIRECTS_TABLE,
+    TableName: process.env.URL_TABLE,
     Item: {
-      shortUrl: shortUrl,
-      data: {
-        longUrl: longUrl,
-        createDate: new Date()
-      }
+      shortUrl: { S: shortUrl },
+      longUrl: { S: longUrl }
     }
   };
 

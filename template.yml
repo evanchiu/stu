@@ -35,9 +35,9 @@ Resources:
             Method: post
       Environment:
         Variables:
-          REDIRECTS_TABLE:
-            Ref: redirectsTable
-  redirectsTable:
+          URL_TABLE:
+            Ref: urlTable
+  urlTable:
     Type: AWS::Serverless::SimpleTable
     PrimaryKey:
       Name: shortUrl
