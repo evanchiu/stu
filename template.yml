@@ -33,3 +33,15 @@ Resources:
           Properties:
             Path: '/{proxy+}'
             Method: post
+      Environment:
+        Variables:
+          REDIRECTS_TABLE:
+            Ref: redirectsTable
+  redirectsTable:
+    Type: AWS::Serverless::SimpleTable
+    PrimaryKey:
+      Name: shortUrl
+      Type: String
+    ProvisionedThroughput:
+      ReadCapacityUnits: 5
+      WriteCapacityUnits: 5
