@@ -2,6 +2,7 @@
 var fs = require('fs');
 
  exports.get = function(event, context) {
+   console.log(event);
    var contents = fs.readFileSync("public/index.html");
    context.succeed({
      statusCode: 200,
