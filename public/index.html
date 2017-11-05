@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Example app</title>
+    <title>Stu</title>
     <meta name="description" content="" />
     <link href="assets/css/styles.css" rel="stylesheet">
     <link href="assets/css/gradients.css" rel="stylesheet">
@@ -47,27 +47,30 @@
         <header>
             <nav class="website-nav">
                 <ul>
-                  <li><a class="home-link" href="https://aws.amazon.com/">Home</a></li>
-                  <li><a href="https://aws.amazon.com/what-is-cloud-computing/">About</a></li>
-                  <li><a href="https://aws.amazon.com/solutions/">Services</a></li>
-                  <li><a href="https://aws.amazon.com/contact-us/">Contact</a></li>
+                  <li><a class="home-link" href="/">Home</a></li>
+                  <li><a href="https://evanchiu.com">evanchiu.com</a></li>
+                  <li><a href="https://github.com/awslabs/serverless-application-model">SAM: Serverless Application Model</a></li>
                 </ul>
             </nav>
         </header>
 
         <div class="message">
-            <a class="twitter-link" href="http://twitter.com/home/?status=I%20created%20a%20project%20with%20AWS%20CodeStar!%20%23AWS%20%23AWSCodeStar%20https%3A%2F%2Faws.amazon.com%2Fcodestar"><img src="assets/img/tweet.svg" /></a>
             <div class="text">
-                <h1>Congratulations!</h1>
-                <h2>You just created a Node.js web application</h2>
+                <h1>Stu: Serverless Teeny Url</h1>
+                <p>
+                  <input id="long-url" />
+                  <button onclick="shorten()">Shorten</button>
+                </p>
+                <p id="short-url"></p>
             </div>
         </div>
     </div>
 
     <footer>
-        <p class="footer-contents">Designed and developed with <a href="cssaws.amazon.com/careers/devtools-jobs/">♥</a> in Seattle.</p>
+        <p class="footer-contents">Created with <a href="https://aws.amazon.com/codestar">AWS Codestar</a>.</p>
     </footer>
 
+    <script src="assets/js/shorten-ajax.js"></script>
     <script src="assets/js/set-background.js"></script>
 </body>
 
