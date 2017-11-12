@@ -142,6 +142,10 @@ function loadLong(shortKey, callback) {
     if (err) {
       console.log('DynamoDB error on load: ', err);
       return callback(err);
+    } else if (!data.Item) {
+      var msg = 'No data for shortKey: ' + shortKey;
+      console.log(msg);
+      return callback(new Error(msg));
     } else {
       console.log('Got data: ', data);
       return callback(null, data.Item.longUrl);
