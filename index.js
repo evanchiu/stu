@@ -79,32 +79,54 @@ function getShortKey(path) {
 }
 
 // Generate the short path for the given url and store it in the database
-function shortSave(longUrl, callback) {
-  var shortKey = shorten(longUrl);
+function shortSave(longUrl, callback, keyHash = '', length = 2) {
+  // hash the url if necessary
+  if (!keyHash) {
+    keyHash = hash(longUrl);
+  }
+
+  // calculate the shortKey based on the received length
+  var shortKey = keyHash.substring(0, length);
+
+  // Store the mapping of shortKey to longUrl, only if the shortKey is new
+  // or this data is already stored
   var params = {
     TableName: process.env.URL_TABLE,
     Item: {
       id: shortKey,
       longUrl: longUrl
+    },
+    ConditionExpression: 'attribute_not_exists(id) or longUrl = :url',
+    ExpressionAttributeValues: {
+      ':url': longUrl
     }
   };
-
   doc.put(params, function(err, data) {
     if (err) {
-      console.error('DyanmoDB error on save: ', err);
-      return callback(err);
+      if (err.code === 'ConditionalCheckFailedException') {
+        // Key collision, try again with a longer shortKey
+        if (length < keyHash.length) {
+          shortSave(longUrl, callback, keyHash, length + 1);
+        } else {
+          console.error('Key collision, but cannot make key longer: ', err);
+          return callback(err);
+        }
+      } else {
+        console.error('DyanmoDB error on save: ', err);
+        return callback(err);
+      }
     } else {
+      // Key saved: return success
       return callback(null, JSON.stringify({shortKey: shortKey}));
     }
   });
 }
 
-// For this demo, we're just going to use the first 7 base-64 encoded characters of the sha256 hash
-// This gives us about 4 trillion possibilities
-function shorten(url) {
-  var hash = crypto.createHash('sha256');
-  hash.update(url);
-  return hash.digest('base64').substring(0, 7);
+// Sha256 the given url
+function hash(url) {
+  var sha = crypto.createHash('sha256');
+  sha.update(url);
+  return sha.digest('base64');
 }
 
 // Load the long url from the database
