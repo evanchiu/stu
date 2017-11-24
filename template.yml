@@ -14,9 +14,10 @@ Resources:
     Properties:
       Handler: index.handler
       Runtime: nodejs6.10
-      Role:
-        Fn::ImportValue:
-          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName:
+              Ref: urlTable
       Events:
         root:
           Type: Api
