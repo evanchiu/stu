@@ -1,6 +1,6 @@
 function shorten() {
   var longUrl = document.getElementById('long-url').value;
-  fetch("create", {
+  fetch("Prod/create", {
     method: 'POST',
     body: JSON.stringify({longUrl: longUrl})
   }).then(function(response) {
