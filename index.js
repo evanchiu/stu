@@ -5,6 +5,7 @@ const doc = new aws.DynamoDB.DocumentClient();
 
 const crypto = require('crypto');
 const fs = require('fs');
+const path = require('path');
 
 // Map of routes to functions
 var routes = {
@@ -24,8 +25,21 @@ exports.handler = function(event, context, callback) {
 
 // Serve the index page
 function index(event, context, callback) {
-  var contents = fs.readFileSync("public/index.html");
-  done(200, contents.toString(), 'text/html', callback);
+  // Determine base path on whether the API Gateway stage is in the path or not
+  let base_path = '/';
+  if (event.requestContext.path.startsWith('/' + event.requestContext.stage)) {
+    base_path = '/' + event.requestContext.stage + '/';
+  }
+
+  let filePath = path.join(process.env.LAMBDA_TASK_ROOT, 'public/index.html');
+  // Read the file, fill in base_path and serve, or 404 on error
+  fs.readFile(filePath, function(err, data) {
+    if (err) {
+      return done(404, '{"message":"Not Found"}', 'application/json', callback);
+    }
+    let content = data.toString().replace(/{{base_path}}/g, base_path);
+    return done(200, content, 'text/html', callback);
+  });
 }
 
 // Create a new teeny url
